@@ -5,6 +5,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.mail.javamail.MimeMessageHelper;
+import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 import org.thymeleaf.context.Context;
@@ -52,6 +53,27 @@ public class Controller {
         MessageDto dto = new MessageDto();
         dto.setError("None");
         dto.setMessage("Successfully created new user! Email confirmation sent.");
+        return ResponseEntity.status(HttpStatus.OK).body(dto);
+    }
+
+    @PostMapping("/unusedBooks")
+    public ResponseEntity<MessageDto> sendUnusedBooksEmail (@RequestBody List<SimpleBookDto> books) {
+
+        System.out.println("Am primit: "+ books);
+
+        if(CollectionUtils.isEmpty(books)){
+
+            MessageDto dto = new MessageDto();
+            dto.setError("Book list is empty");
+            dto.setMessage("All books are used. Email does not need to be send");
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(dto);
+        }
+
+        emailSender.sendUnusedBooksEmailToAdmin(books);
+
+        MessageDto dto = new MessageDto();
+        dto.setError("None");
+        dto.setMessage("Successfully found unused books! Email to admin sent.");
         return ResponseEntity.status(HttpStatus.OK).body(dto);
     }
 

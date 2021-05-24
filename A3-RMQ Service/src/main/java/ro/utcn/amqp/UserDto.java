@@ -7,6 +7,8 @@ public class UserDto {
 
     private String email;
 
+    private String username;
+
     private String password;
 
     private String name;
@@ -56,6 +58,10 @@ public class UserDto {
         this.surname = surname;
     }
 
+    public String getUsername() { return username; }
+
+    public void setUsername(String username) { this.username = username; }
+
     public String getPhoneNumber() {
         return phoneNumber;
     }
@@ -69,6 +75,7 @@ public class UserDto {
         return "UserDto{" +
                 "id='" + id + '\'' +
                 ", email='" + email + '\'' +
+                ", username='" + username + '\'' +
                 ", password='" + password + '\'' +
                 ", name='" + name + '\'' +
                 ", surname='" + surname + '\'' +
